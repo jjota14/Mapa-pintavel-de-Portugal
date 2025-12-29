@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8" />
+  <title>Pintar Distritos de Portugal</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+    h1 { text-align: center; }
+    svg {
+      width: 100%;
+      max-width: 600px;
+      display: block;
+      margin: 0 auto;
+    }
+    .district {
+      fill: #e0e0e0;
+      stroke: #333;
+      stroke-width: 1;
+      cursor: pointer;
+      transition: fill 0.2s;
+    }
+    .district:hover {
+      fill: #cfcfcf;
+    }
+    .legend {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pinta os Distritos de Portugal</h1>
+
+  <!-- Mapa SVG SIMPLIFICADO (não geograficamente perfeito) -->
+  <svg viewBox="0 0 300 600">
+    <!-- Norte -->
+    <path d="M50 20 L150 20 L150 80 L50 80 Z" class="district" data-name="Viana do Castelo" />
+    <path d="M150 20 L250 20 L250 80 L150 80 Z" class="district" data-name="Braga" />
+    <path d="M50 80 L150 80 L150 140 L50 140 Z" class="district" data-name="Porto" />
+    <path d="M150 80 L250 80 L250 140 L150 140 Z" class="district" data-name="Vila Real" />
+    <path d="M50 140 L150 140 L150 200 L50 200 Z" class="district" data-name="Aveiro" />
+    <path d="M150 140 L250 140 L250 200 L150 200 Z" class="district" data-name="Bragança" />
+
+    <!-- Centro -->
+    <path d="M50 200 L150 200 L150 260 L50 260 Z" class="district" data-name="Coimbra" />
+    <path d="M150 200 L250 200 L250 260 L150 260 Z" class="district" data-name="Viseu" />
+    <path d="M50 260 L150 260 L150 320 L50 320 Z" class="district" data-name="Leiria" />
+    <path d="M150 260 L250 260 L250 320 L150 320 Z" class="district" data-name="Castelo Branco" />
+    <path d="M50 320 L150 320 L150 380 L50 380 Z" class="district" data-name="Santarém" />
+    <path d="M150 320 L250 320 L250 380 L150 380 Z" class="district" data-name="Guarda" />
+
+    <!-- Sul -->
+    <path d="M50 380 L150 380 L150 440 L50 440 Z" class="district" data-name="Lisboa" />
+    <path d="M150 380 L250 380 L250 440 L150 440 Z" class="district" data-name="Portalegre" />
+    <path d="M50 440 L150 440 L150 500 L50 500 Z" class="district" data-name="Setúbal" />
+    <path d="M150 440 L250 440 L250 500 L150 500 Z" class="district" data-name="Évora" />
+    <path d="M50 500 L150 500 L150 560 L50 560 Z" class="district" data-name="Beja" />
+    <path d="M150 500 L250 500 L250 560 L150 560 Z" class="district" data-name="Faro" />
+
+    <!-- Regiões Autónomas -->
+    <path d="M20 580 L100 580 L100 620 L20 620 Z" class="district" data-name="Região Autónoma dos Açores" />
+    <path d="M120 580 L200 580 L200 620 L120 620 Z" class="district" data-name="Região Autónoma da Madeira" />
+  </svg>
+
+  <div class="legend">
+    <p>Clica num distrito para mudar a cor.</p>
+    <p id="info"></p>
+  </div>
+
+  <script>
+    const colors = ['#e0e0e0', '#ffcc00', '#66ccff', '#90ee90', '#ff9999'];
+
+    document.querySelectorAll('.district').forEach(district => {
+      const name = district.dataset.name;
+      let colorIndex = localStorage.getItem(name);
+
+      if (colorIndex !== null) {
+        district.style.fill = colors[colorIndex];
+      } else {
+        colorIndex = 0;
+      }
+
+      district.addEventListener('click', () => {
+        colorIndex = (parseInt(colorIndex) + 1) % colors.length;
+        district.style.fill = colors[colorIndex];
+        localStorage.setItem(name, colorIndex);
+        document.getElementById('info').textContent = 'Distrito: ' + name;
+      });
+    });
+    });
+  </script>
+</body>
+</html>
